@@ -5,7 +5,13 @@ CFG_FILE := A_ScriptDir "\notes.ini"  ; 配置文件固定随程序：记录数�
 try {
     d := IniRead(CFG_FILE, "Settings", "dir", "")
     if d != "" {
-        NOTES_DIR := NormPath(d)
+        d := NormPath(d)
+        ; dir 指向程序自身目录（多余残留）或已失效（目录被删/拷到别的机器）→ 清理并跟随程序，保证可移植性
+        if d != A_ScriptDir && DirExist(d) {
+            NOTES_DIR := d
+        } else {
+            IniDelete(CFG_FILE, "Settings", "dir")
+        }
     }
 }
 catch {
@@ -315,7 +321,11 @@ SettingsSave(*) {
         IniWrite(newKeys[1], CFG_FILE, "Hotkeys", "quick")
         IniWrite(newKeys[2], CFG_FILE, "Hotkeys", "main")
         IniWrite(newKeys[3], CFG_FILE, "Hotkeys", "copy")
-        IniWrite(NOTES_DIR, CFG_FILE, "Settings", "dir")
+        ; 只有自定义路径（非程序目录）才记录；等于程序目录时删除，保持"跟随 exe"的可移植性
+        if NOTES_DIR != A_ScriptDir
+            IniWrite(NOTES_DIR, CFG_FILE, "Settings", "dir")
+        else
+            IniDelete(CFG_FILE, "Settings", "dir")
     }
     catch {
         TrayTip("配置写入失败（目录可能只读），本次设置重启后不保留", "设置", 3)
