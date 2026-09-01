@@ -5,3 +5,6 @@ Notes.zip
 # 内部开发文档/脚本不上传（隐私）
 agents.md
 compile_exe.ps1
+
+# 编译产物只在 Releases 发布，不进仓库
+notes.exe
