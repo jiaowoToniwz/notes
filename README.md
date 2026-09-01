@@ -92,7 +92,7 @@ winget install AutoHotkey.AutoHotkey
 
 编译成功后生成 `notes.exe`（约 1.2MB），功能与脚本版完全一致，常驻内存约 12MB。
 
-> **Ahk2Exe 异常时的备用编译**：本目录自带的 `compile_exe.ps1` 用资源注入方式编译（复制 AutoHotkey64.exe 后把脚本写入其 RT_RCDATA 资源）。用法：`powershell -ExecutionPolicy Bypass -File D:\Notes\compile_exe.ps1`。注意编译前先退出运行中的 notes.exe（会锁文件）。
+> **Ahk2Exe 异常时的备用编译**：本机备用的 `compile_exe.ps1`（内部脚本，不随仓库分发）用资源注入方式编译（复制 AutoHotkey64.exe 后把脚本写入其 RT_RCDATA 资源）。用法：`powershell -ExecutionPolicy Bypass -File D:\Notes\compile_exe.ps1`。注意编译前先退出运行中的 notes.exe（会锁文件）。
 
 ### 3. 部署
 
